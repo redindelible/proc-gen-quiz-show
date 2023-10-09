@@ -1,5 +1,6 @@
 mod arithmetic;
 mod question;
+mod calculus;
 
 use std::io;
 use rand::prelude::*;
