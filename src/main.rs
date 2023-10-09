@@ -1,17 +1,19 @@
 mod arithmetic;
 mod question;
 mod calculus;
+mod utils;
 
 use std::io;
 use rand::prelude::*;
 use arithmetic::ArithmeticProblem;
 use question::{CheckAnswer, GenerateQuestion};
+use crate::calculus::RelatedRates;
 
 
 fn main() {
     let mut rng = thread_rng();
     loop {
-        let q = ArithmeticProblem.generate(&mut rng);
+        let q = RelatedRates.generate(&mut rng);
 
         println!("Question: {}", &q.text);
 
