@@ -1,4 +1,6 @@
+use std::ops::RangeInclusive;
 use rand::prelude::*;
+
 use crate::question::{GenerateQuestion, Question};
 
 pub enum Expr {
@@ -12,8 +14,8 @@ pub enum Expr {
 impl Expr {
     const OP_ADD: &'static str = "+";
     const OP_SUB: &'static str = "-";
-    const OP_MUL: &'static str = "*";
-    const OP_DIV: &'static str = "/";
+    const OP_MUL: &'static str = "×";
+    const OP_DIV: &'static str = "÷";
 
     const OPS: &'static [&'static str] = &[Self::OP_ADD, Self::OP_SUB, Self::OP_MUL, Self::OP_DIV];
 
@@ -133,11 +135,13 @@ impl Expr {
     }
 }
 
-pub struct ArithmeticProblem;
+pub struct ArithmeticProblem {
+    pub terms: RangeInclusive<u32>
+}
 
 impl GenerateQuestion for ArithmeticProblem {
     fn generate(&self, rng: &mut dyn RngCore) -> Question {
-        let term_count = (4..=6).choose(rng).unwrap();
+        let term_count = self.terms.clone().choose(rng).unwrap();
         let mut terms: Vec<&'static str> = (0..term_count).map(|_| *Expr::OPS.choose(rng).unwrap()).collect();
         let (target, q) = Expr::parse_add(&mut terms).build(rng);
 

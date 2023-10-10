@@ -5,15 +5,21 @@ mod utils;
 
 use std::io;
 use rand::prelude::*;
-use arithmetic::ArithmeticProblem;
-use question::{CheckAnswer, GenerateQuestion};
+
+use crate::arithmetic::ArithmeticProblem;
 use crate::calculus::RelatedRates;
+use crate::question::{Question, CheckAnswer, GenerateQuestion};
 
 
 fn main() {
+    let generators: &[Box<dyn GenerateQuestion>] = &[
+        Box::new(ArithmeticProblem { terms: 4..=6 }),
+        Box::new(RelatedRates)
+    ];
+
     let mut rng = thread_rng();
     loop {
-        let q = RelatedRates.generate(&mut rng);
+        let q: Question = generators.choose(&mut rng).unwrap().generate(&mut rng);
 
         println!("Question: {}", &q.text);
 

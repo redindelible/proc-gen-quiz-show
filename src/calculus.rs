@@ -1,5 +1,6 @@
 use std::mem::swap;
 use rand::prelude::*;
+
 use crate::question::{GenerateQuestion, Question};
 use crate::utils::rand_product_in_range;
 
@@ -35,6 +36,7 @@ const UNITS: &[Unit] = &[
 ];
 
 pub struct RelatedRates;
+
 impl GenerateQuestion for RelatedRates {
     fn generate(&self, rng: &mut dyn RngCore) -> Question {
         let (mut x, mut y, l) = TRIPLES.choose(rng).copied().unwrap();
